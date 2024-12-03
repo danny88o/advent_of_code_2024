@@ -1,21 +1,5 @@
-mod elves;
-
 use crate::elves::read_lines as read_lines;
-
-//pub mod read_file;
-
-
-use std::fs::read_to_string;
 use std::collections::HashMap;
-
-fn read_lines(filename: &str) -> Vec<String> {
-    read_to_string(filename) 
-        .unwrap()  // panic on possible file-reading errors
-        .lines()  // split the string into an iterator of string slices
-        .map(String::from)  // make each slice into a string
-        .collect()  // gather them together into a vector
-}
-
 
 fn part_1() -> i32 {
     let lines = read_lines("input");
