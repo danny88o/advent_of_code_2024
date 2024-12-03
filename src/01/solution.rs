@@ -1,6 +1,9 @@
-//use crate::elves::read_file::read_lines as read_lines;
+mod elves;
+
+use crate::elves::read_lines as read_lines;
 
 //pub mod read_file;
+
 
 use std::fs::read_to_string;
 use std::collections::HashMap;
