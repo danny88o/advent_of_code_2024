@@ -17,3 +17,27 @@ pub fn read_grid(filename: &str) -> Vec<Vec<char>> {
         .collect() 
 }
 
+pub fn read_split(filename: &str, split_on: &str) -> (Vec<String>, Vec<String>) {
+    let mut file_sec_1: Vec<String> = Vec::new();
+    let mut file_sec_2: Vec<String> = Vec::new();
+    let mut sec_1 = true;
+    for line in read_to_string(filename).unwrap().lines() {
+        if line == split_on {
+            sec_1 = false;
+            continue;
+        }
+        if sec_1 {
+            file_sec_1.push(line.to_string());
+        }
+        else {
+            file_sec_2.push(line.to_string());
+        }
+    }
+    return (file_sec_1, file_sec_2);
+}
+
+pub fn get_middle_val<T>(v: &Vec<T>) -> T
+where T: Clone {
+    let mid = v.len() / 2;
+    return v[mid].clone();
+}
