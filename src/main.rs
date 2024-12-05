@@ -4,7 +4,10 @@ pub mod elves;
 
 use std::env;
 
+use days::day04::part_2 as part_2;
+
 fn main() {
     env::set_var("RUST_BACKTRACE", "1");
-    days::day03::part_2()
+    env::set_var("RUSTFLAGS", "-Awarnings");
+    part_2();
 }
