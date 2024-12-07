@@ -33,16 +33,27 @@ pub fn part_2() {
     let grid: Vec<Vec<char>> = read_grid("input/day06");
     let map = Map::new(grid);
 
+    let mut standard_guard = Guard::new(map.clone());
+    while standard_guard.state != State::Escaped {
+        standard_guard.step();
+    }
+    let visited_positions: Vec<Position> = standard_guard.visited.iter().map(|(pos, _)| *pos).collect();
+
     let mut total =0;
     for (i, row) in map.grid.iter().enumerate() {
         for (j, feature) in row.iter().enumerate() {
             match feature {
                 Feature::Free => {
-                    if map.start_position == (j as i32, i as i32) {
+                    let obs_pos: Position = (j as i32, i as i32);
+                    
+                    if map.start_position == obs_pos {
                         continue;
                     }
-                    if looped_exp(&map, (j as i32, i as i32)) {
-                        total += 1;     
+
+                    if visited_positions.contains(&obs_pos) {
+                        if looped_exp(&map, obs_pos) {
+                            total += 1;     
+                        }
                     }
                 },
                 Feature::Obstacle => continue,
@@ -66,19 +77,19 @@ enum Direction {
 
 fn next_position(pos: Position, dir: Direction) -> Position {
     match dir {
-        Direction::Up => (pos.0, pos.1 - 1),
-        Direction::Down => (pos.0, pos.1 + 1),
-        Direction::Left => (pos.0 - 1, pos.1),
+        Direction::Up    => (pos.0, pos.1 - 1),
+        Direction::Down  => (pos.0, pos.1 + 1),
+        Direction::Left  => (pos.0 - 1, pos.1),
         Direction::Right => (pos.0 + 1, pos.1)
     }
 }
 
 fn rotate_right(dir: Direction) -> Direction {
     match dir {
-        Direction::Up => Direction::Right,
+        Direction::Up    => Direction::Right,
         Direction::Right => Direction::Down,
-        Direction::Down => Direction::Left,
-        Direction::Left => Direction::Up,
+        Direction::Down  => Direction::Left,
+        Direction::Left  => Direction::Up,
     }
 }
 
